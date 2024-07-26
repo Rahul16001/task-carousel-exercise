@@ -1,25 +1,47 @@
 package com.epam.rd.autotasks;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 public class TaskCarousel {
 
+    int capacity;
+    Queue<Task> carousalQue;
+
     public TaskCarousel(int capacity) {
-        throw new UnsupportedOperationException();
+        this.capacity = capacity;
+        carousalQue = new ArrayDeque<>();
     }
 
     public boolean addTask(Task task) {
-        throw new UnsupportedOperationException();
+        if(task == null || task.isFinished() || (carousalQue.size() == capacity))
+        {
+            return false;
+        }
+        return carousalQue.offer(task);
     }
 
     public boolean execute() {
-        throw new UnsupportedOperationException();
+        if(carousalQue.isEmpty()) return false;
+        Task currentTask = carousalQue.poll();
+        currentTask.execute();
+        if(!currentTask.isFinished())
+        {
+            carousalQue.offer(currentTask);
+        }
+        return true;
     }
 
     public boolean isFull() {
-        throw new UnsupportedOperationException();
+        return carousalQue.size() == capacity;
     }
 
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        return carousalQue.isEmpty();
+    }
+
+    public static void main(String[] args) {
+
     }
 
 }
